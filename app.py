@@ -11,17 +11,25 @@ st.set_page_config(page_title="Ideator – Gerador de Ideias por Tendências", p
 # ---- LOAD TRENDS ----
 @st.cache_data
 def load_trends(csv_path):
-    df = pd.read_csv(csv_path)
-    # Normalizar colunas esperadas
     expected = ["trend_nome","descricao","porque_agora","oportunidades","exemplos"]
+    try:
+        df = pd.read_csv(csv_path)
+    except Exception as e:
+        # fallback: cria um exemplo mínimo para o app não quebrar
+        df = pd.DataFrame([{
+            "trend_nome":"WORTHWISE",
+            "descricao":"Trocas de valor entre atenção e benefício.",
+            "porque_agora":"Consumidor exige retorno imediato por engajamento.",
+            "oportunidades":"Moedas de marca, cashback, recompensas.",
+            "exemplos":"Starbucks Rewards, Nike Membership"
+        }])
     for col in expected:
         if col not in df.columns:
             df[col] = ""
-    # Drop linhas vazias de nome
     df = df[df["trend_nome"].notna() & (df["trend_nome"].astype(str).str.strip() != "")]
     return df[expected]
 
-default_csv = "/mnt/data/tendencias_estruturadas.csv"
+default_csv = "tendencias_estruturadas.csv"
 csv_file = st.file_uploader("📄 Suba sua base de tendências (CSV) ou use a padrão:", type=["csv"])
 if csv_file:
     trends_df = load_trends(csv_file)
