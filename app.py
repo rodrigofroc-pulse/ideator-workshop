@@ -29,7 +29,7 @@ else:
     trends_df = load_trends(default_csv)
 
 st.sidebar.header("⚙️ Configurações")
-model_name = st.sidebar.text_input("Modelo LLM", value=os.environ.get("OPENAI_MODEL","gpt-4o-mini"))
+model_name = st.sidebar.text_input("Modelo LLM", value=(os.environ.get("OPENAI_MODEL") or st.secrets.get("OPENAI_MODEL","gpt-4o-mini")))
 temperature = st.sidebar.slider("Temperature", 0.0, 1.0, 0.4, 0.1)
 max_tokens = st.sidebar.slider("Max tokens", 256, 4096, 1400, 64)
 

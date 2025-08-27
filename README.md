@@ -36,3 +36,13 @@ streamlit run app.py
 ## ❓ Dúvidas rápidas
 - **Erro de API**: verifique se `OPENAI_API_KEY` está definido e se o modelo existe.
 - **Celular**: funciona como PWA (adicione à tela inicial via menu do navegador).
+
+
+## 🔐 Configurando Secrets no Streamlit Cloud
+1) Na página do app, clique em **Advanced settings → Edit secrets**.  
+2) Cole exatamente neste formato (TOML), com aspas:
+```
+OPENAI_API_KEY="sua_chave_aqui"
+OPENAI_MODEL="gpt-4o-mini"
+```
+3) Salve e faça o **Deploy**.
